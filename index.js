@@ -1,7 +1,7 @@
-const to_do_form = document.querySelector('#to-do-form');
-const to_do_input = document.querySelector('#to-do-input');
-const to_do_submit = document.querySelector('#to-do-submit');
-const ul = document.querySelector('#lists');
+const to_do_form = document.querySelector('.form');
+const to_do_input = document.querySelector('.form__input');
+const to_do_submit = document.querySelector('.form__button');
+const ul = document.querySelector('.todo');
 const TODOLIST = 'lists';
 let to_do_lists = JSON.parse(localStorage.getItem(TODOLIST));
 
