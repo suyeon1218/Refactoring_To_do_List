@@ -19,9 +19,9 @@ $form.addEventListener('submit', (event) => {
 $todos.addEventListener('click', (event) => {
 	$todos.innerHTML = '';
 
-	if (event.target.className === 'todo__text') {
+	if (event.target.classList.contains('todo__text')) {
 		handleCheckTodo(event);
-	} else if (event.target.className === 'todo__delete-button') {
+	} else if (event.target.classList.contains('todo__delete-button')) {
 		handleDeleteTodo(event);
 	}
 	renderTodos();
@@ -50,10 +50,13 @@ function renderTodos() {
 		$deleteButton.classList.add('todo__delete-button');
 		$deleteButton.innerText = '삭제';
 
-		$text.classList.add(todo.checked ? 'todo__text--checked' : 'todo__text');
+		$text.classList.add('todo__text');
+		if (todo.checked) {
+			$text.classList.add('todo__text--checked');
+		}
 		$text.innerText = todo.value;
 
-		$li.classList.add = 'todo__item';
+		$li.classList.add('todo__item');
 		$li.id = todo.id;
 
 		$li.appendChild($text);
@@ -72,7 +75,10 @@ function handleCheckTodo(event) {
 	const { id } = $li;
 
 	const targetIndex = todos.findIndex((todo) => todo.id === id);
-	todos[targetIndex].checked = !todos[targetIndex].checked;
+	todos[targetIndex] = {
+		...todos[targetIndex],
+		checked: !todos[targetIndex].checked,
+	};
 }
 
 function handleDeleteTodo(event) {
