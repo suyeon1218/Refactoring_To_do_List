@@ -4,31 +4,26 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>to-do List</title>
+		<title>투두 리스트</title>
 	</head>
 	<body>
-		<div id="first-container">
-			<h1 id="title">to-do List</h1>
-
-			<form id="to-do-form">
-				<input
-					type="text"
-					class="form-input"
-					id="to-do-input"
-					maxlength="100"
-					placeholder="write your to-do list"
-					required
-					autofocus />
-				<input
-					type="submit"
-					class="form-input"
-					id="to-do-submit"
-					value="submit" />
-			</form>
-
-			<ul id="lists"></ul>
+		<div id="root">
+			<header class="header">
+				<h1 class="header__title">to-do List</h1>
+			</header>
+			<div class="form-container">
+				<form class="form">
+					<input
+						type="text"
+						class="form__input"
+						placeholder="write your to-do list"
+						required
+						autofocus />
+					<button type="submit" class="form__add-button">+</button>
+				</form>
+				<ul class="todo"></ul>
+			</div>
 		</div>
-
 		<script src="./todo-list.js"></script>
 	</body>
 </html>
