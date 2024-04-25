@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>to-do List</title>
+	</head>
+	<body>
+		<div id="first-container">
+			<h1 id="title">to-do List</h1>
+
+			<form id="to-do-form">
+				<input
+					type="text"
+					class="form-input"
+					id="to-do-input"
+					maxlength="100"
+					placeholder="write your to-do list"
+					required
+					autofocus />
+				<input
+					type="submit"
+					class="form-input"
+					id="to-do-submit"
+					value="submit" />
+			</form>
+
+			<ul id="lists"></ul>
+		</div>
+
+		<script src="./todo-list.js"></script>
+	</body>
+</html>
