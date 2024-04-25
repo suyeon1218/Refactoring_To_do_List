@@ -1,59 +1,88 @@
-const to_do_form = document.querySelector('.form');
-const to_do_input = document.querySelector('.form__input');
-const to_do_submit = document.querySelector('.form__button');
-const ul = document.querySelector('.todo');
-const TODOLIST = 'lists';
-let to_do_lists = JSON.parse(localStorage.getItem(TODOLIST));
+const $form = document.querySelector('.form');
+const $input = document.querySelector('.form__input');
+const $submitButton = document.querySelector('.form__button');
+const $todos = document.querySelector('.todo');
 
-function remove_list(event) {
-	const list_value = event.target.previousSibling.data;
-	const remove_index = () => {
-		for (let index = 0; index < to_do_lists.length; index++) {
-			if (to_do_lists[index] == list_value) {
-				return index;
-			}
-		}
-	};
+const todos = getSavedTodos();
 
+renderTodos();
+
+$form.addEventListener('submit', (event) => {
+	$todos.innerHTML = '';
 	event.preventDefault();
-	event.target.parentElement.remove();
-	to_do_lists.splice(remove_index(), 1);
-	localStorage.setItem(TODOLIST, JSON.stringify(to_do_lists));
+
+	addNewTodo();
+	renderTodos();
+	saveTodos();
+});
+
+$todos.addEventListener('click', (event) => {
+	$todos.innerHTML = '';
+
+	if (event.target.className === 'todo__text') {
+		handleCheckTodo(event);
+	} else if (event.target.className === 'todo__delete-button') {
+		handleDeleteTodo(event);
+	}
+	renderTodos();
+	saveTodos();
+});
+
+function getSavedTodos() {
+	const savedTodos = localStorage.getItem('todos');
+
+	return JSON.parse(savedTodos) ?? [];
 }
 
-function make_lists(todo_value) {
-	const li = document.createElement('li');
-	const button = document.createElement('button');
+function addNewTodo() {
+	const id = generateID();
 
-	li.innerText = todo_value;
-	button.innerText = '❌';
-
-	ul.appendChild(li);
-	li.appendChild(button);
-
-	button.addEventListener('click', remove_list);
+	todos.push({ id, value: $input.value, checked: false });
+	$input.value = '';
 }
 
-function save_lists() {
-	localStorage.setItem(TODOLIST, JSON.stringify(to_do_lists));
+function renderTodos() {
+	for (const todo of todos) {
+		const $li = document.createElement('li');
+		const $text = document.createElement('span');
+		const $deleteButton = document.createElement('button');
+
+		$deleteButton.classList.add('todo__delete-button');
+		$deleteButton.innerText = '삭제';
+
+		$text.classList.add(todo.checked ? 'todo__text--checked' : 'todo__text');
+		$text.innerText = todo.value;
+
+		$li.classList.add = 'todo__item';
+		$li.id = todo.id;
+
+		$li.appendChild($text);
+		$li.appendChild($deleteButton);
+
+		$todos.appendChild($li);
+	}
 }
 
-function form_submit_event(event) {
-	const list_value = to_do_input.value;
-
-	to_do_lists.push(list_value);
-	to_do_input.value = '';
-	event.preventDefault();
-	make_lists(list_value);
-	save_lists();
+function generateID() {
+	return Math.random().toString(36).substring(2, 16);
 }
 
-if (to_do_lists === null) {
-	to_do_lists = [];
-} else {
-	to_do_lists.forEach((element) => {
-		make_lists(element);
-	});
+function handleCheckTodo(event) {
+	const $li = event.target.closest('li');
+	const { id } = $li;
+
+	const targetIndex = todos.findIndex((todo) => todo.id === id);
+	todos[targetIndex].checked = !todos[targetIndex].checked;
 }
 
-to_do_form.addEventListener('submit', form_submit_event);
+function handleDeleteTodo(event) {
+	const $li = event.target.closest('li');
+	const { id } = $li;
+
+	const targetIndex = todos.findIndex((todo) => todo.id === id);
+	todos.splice(targetIndex, 1);
+}
+
+function saveTodos() {
+	localStorage.setItem('todos', JSON.stringify(todos));
+}
